@@ -6,74 +6,170 @@
     <link rel="stylesheet" href="stlye.css">
 </head>
 <body>
-    <h2>Selamat Mencoba</h2>
+    <h2>Kalkulator Sederhana</h2>
 
-    <form id="calcForm" class="form-container">
-        <label for="nilai1">Nilai I</label>
-        <input type="number" id="nilai1" name="nilai1" required>
+    <div class="calculator">
+        <input type="text" class="calculator-screen" value="0" disabled />
 
-        <select name="operator" id="operator">
-            <option value="+">+</option>
-            <option value="-">-</option>
-            <option value="*">*</option>
-            <option value="/">/</option>
-            <option value="^">^</option>
-        </select>
+        <div class="calculator-keys">
+            <button type="button" class="operator" value="+">+</button>
+            <button type="button" class="operator" value="-">-</button>
+            <button type="button" class="operator" value="*">&times;</button>
+            <button type="button" class="operator" value="/">/</button>
+            <button type="button" class="operator" value="^">√</button> <button type="button" value="7">7</button>
+            <button type="button" value="8">8</button>
+            <button type="button" value="9">9</button>
 
-        <label for="nilai2" id="label-nilai2">Nilai II</label>
-        <input type="number" id="nilai2" name="nilai2" required>
+            <button type="button" value="4">4</button>
+            <button type="button" value="5">5</button>
+            <button type="button" value="6">6</button>
 
-        <button type="submit">submit</button>
-    </form>
+            <button type="button" value="1">1</button>
+            <button type="button" value="2">2</button>
+            <button type="button" value="3">3</button>
 
-    <div id="hasil" class="result"></div>
+            <button type="button" value="0">0</button>
+            <button type="button" class="decimal" value=".">.</button>
+            <button type="button" class="all-clear" value="clear">AC</button>
+
+            <button type="button" class="equal-sign" value="=">=</button>
+        </div>
+    </div>
 
     <script>
-        const form = document.getElementById('calcForm');
-        const hasilDiv = document.getElementById('hasil');
-        const operatorSelect = document.getElementById('operator');
-        const nilai2Field = document.getElementById('nilai2');
-        const labelNilai2 = document.getElementById('label-nilai2');
+        const calculator = document.querySelector('.calculator');
+        const keys = calculator.querySelector('.calculator-keys');
+        const display = calculator.querySelector('.calculator-screen');
 
-        // Menyembunyikan input nilai2 jika operator adalah "^"
-        operatorSelect.addEventListener('change', function () {
-            if (operatorSelect.value === '^') {
-                nilai2Field.style.display = 'none';
-                labelNilai2.style.display = 'none';
+        let firstValue = null;
+        let operator = null;
+        let waitingForSecondValue = false;
+
+        function calculate(n1, operator, n2) {
+            const firstNum = parseFloat(n1);
+            const secondNum = parseFloat(n2);
+
+            if (operator === '+') {
+                return firstNum + secondNum;
+            }
+            if (operator === '-') {
+                return firstNum - secondNum;
+            }
+            if (operator === '*') {
+                return firstNum * secondNum;
+            }
+            if (operator === '/') {
+                return secondNum === 0 ? 'Tidak bisa dibagi 0!' : firstNum / secondNum;
+            }
+            return n2; // Mengembalikan nilai kedua jika operator tidak ditemukan (kasus akar kuadrat)
+        }
+
+        keys.addEventListener('click', event => {
+            const { target } = event;
+            const { value } = target;
+
+            if (!target.matches('button')) {
+                return;
+            }
+
+            if (target.classList.contains('operator')) {
+                if (value === '^') { // Operator akar kuadrat
+                    const currentDisplayValue = parseFloat(display.value);
+                    if (currentDisplayValue < 0) {
+                        display.value = 'Tidak bisa akar dari bilangan negatif!';
+                    } else {
+                        display.value = Math.sqrt(currentDisplayValue);
+                    }
+                    firstValue = null; // Reset
+                    operator = null;
+                    waitingForSecondValue = false;
+                } else {
+                    handleOperator(value);
+                }
+                return;
+            }
+
+            if (target.classList.contains('decimal')) {
+                inputDecimal(value);
+                return;
+            }
+
+            if (target.classList.contains('all-clear')) {
+                clearCalculator();
+                return;
+            }
+
+            if (target.classList.contains('equal-sign')) {
+                handleEquals();
+                return;
+            }
+
+            inputDigit(value);
+        });
+
+        function inputDigit(digit) {
+            const displayValue = display.value;
+            if (waitingForSecondValue === true) {
+                display.value = digit;
+                waitingForSecondValue = false;
             } else {
-                nilai2Field.style.display = 'inline-block';
-                labelNilai2.style.display = 'inline-block';
+                display.value = displayValue === '0' ? digit : displayValue + digit;
             }
-        });
+        }
 
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
+        function inputDecimal(dot) {
+            if (waitingForSecondValue === true) {
+                display.value = '0.';
+                waitingForSecondValue = false;
+                return;
+            }
+            if (!display.value.includes(dot)) {
+                display.value += dot;
+            }
+        }
 
-            const nilai1 = parseFloat(document.getElementById('nilai1').value);
-            const nilai2 = parseFloat(document.getElementById('nilai2').value);
-            const operator = operatorSelect.value;
-            let hasil;
+        function handleOperator(nextOperator) {
+            const displayValue = display.value;
+            const value = parseFloat(displayValue);
 
-            switch(operator) {
-                case '+':
-                    hasil = nilai1 + nilai2;
-                    break;
-                case '-':
-                    hasil = nilai1 - nilai2;
-                    break;
-                case '*':
-                    hasil = nilai1 * nilai2;
-                    break;
-                case '/':
-                    hasil = nilai2 === 0 ? "Tidak bisa dibagi 0!" : nilai1 / nilai2;
-                    break;
-                case '^':
-                    hasil = nilai1 < 0 ? "Tidak bisa akar dari bilangan negatif!" : Math.sqrt(nilai1);
-                    break;
+            if (operator && waitingForSecondValue) {
+                operator = nextOperator;
+                return;
             }
 
-            hasilDiv.innerHTML = `<p>Hasil: <strong>${hasil}</strong></p>`;
-        });
+            if (firstValue === null) {
+                firstValue = value;
+            } else if (operator) {
+                const result = calculate(firstValue, operator, value);
+                display.value = String(result);
+                firstValue = result;
+            }
+
+            waitingForSecondValue = true;
+            operator = nextOperator;
+        }
+
+        function clearCalculator() {
+            display.value = '0';
+            firstValue = null;
+            operator = null;
+            waitingForSecondValue = false;
+        }
+
+        function handleEquals() {
+            const displayValue = display.value;
+            const value = parseFloat(displayValue);
+
+            if (firstValue === null || operator === null || waitingForSecondValue) {
+                return; // Tidak ada cukup input untuk dihitung
+            }
+
+            const result = calculate(firstValue, operator, value);
+            display.value = String(result);
+            firstValue = result;
+            operator = null; // Reset operator setelah perhitungan
+            waitingForSecondValue = false; // Siap untuk input baru
+        }
     </script>
 </body>
 </html>
