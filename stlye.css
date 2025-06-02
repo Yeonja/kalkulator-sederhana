@@ -1,14 +1,3 @@
-html {
-    font-size: 62.5%; /* 1rem = 10px */
-    box-sizing: border-box;
-}
-
-*, *::before, *::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: inherit;
-}
-
 body {
     font-family: Arial, sans-serif;
     display: flex;
@@ -17,108 +6,92 @@ body {
     justify-content: center;
     min-height: 100vh;
     background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px; /* Tambahkan padding agar tidak terlalu mepet ke tepi */
 }
 
 h2 {
-    margin-bottom: 2rem;
-    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 2.5rem; /* Sesuaikan ukuran font */
+}
+
+.form-container {
+    background-color: #fff;
+    padding: 30px; /* Tambah padding */
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Efek bayangan lebih menonjol */
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Jarak antar elemen input */
+    width: 350px; /* Lebar form */
+    max-width: 90%; /* Responsif */
+}
+
+.form-container label {
+    font-weight: bold;
+    color: #555;
+    font-size: 1.6rem; /* Ukuran font label */
+}
+
+.form-container input[type="number"],
+.form-container select,
+.form-container button {
+    padding: 12px; /* Padding lebih besar */
+    border: 1px solid #ccc;
+    border-radius: 5px; /* Sedikit lebih membulat */
+    font-size: 1.8rem; /* Ukuran font input */
+    width: 100%; /* Lebar penuh dalam container */
+    box-sizing: border-box; /* Pastikan padding tidak menambah lebar */
+}
+
+.form-container select {
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+
+.form-container button {
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease; /* Transisi halus */
+}
+
+.form-container button:hover {
+    background-color: #0056b3;
+}
+
+.result {
+    margin-top: 25px; /* Jarak dari form */
+    padding: 20px; /* Padding lebih besar */
+    background-color: #e9ecef;
+    border-radius: 8px;
+    width: 350px; /* Sama dengan form */
+    max-width: 90%; /* Responsif */
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.result p {
+    margin: 0;
+    font-size: 2rem; /* Ukuran font hasil */
     color: #333;
 }
 
-.calculator {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 400px; /* Ukuran kalkulator */
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-    padding: 20px;
+.result strong {
+    color: #007bff;
 }
 
-.calculator-screen {
-    width: 100%;
-    font-size: 5rem;
-    height: 80px;
-    border: none;
-    background-color: #252525;
-    color: #fff;
-    text-align: right;
-    padding-right: 20px;
-    padding-left: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
+.footer-text {
+    margin-top: 30px; /* Jarak dari hasil */
+    font-size: 1.4rem; /* Ukuran font footer */
+    color: #777;
+    text-align: center;
 }
 
-.calculator-keys {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 kolom */
-    grid-gap: 10px; /* Jarak antar tombol */
-}
-
-.calculator-keys button {
-    height: 60px;
-    font-size: 2.5rem;
-    background-color: #e0e0e0;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    outline: none;
-}
-
-.calculator-keys button:hover {
-    background-color: #d0d0d0;
-}
-
-.operator {
-    background-color: #f5923e;
-    color: #fff;
-}
-
-.operator:hover {
-    background-color: #d47e33;
-}
-
-.equal-sign {
-    background-color: #2e86c1;
-    color: #fff;
-    grid-column: span 2; /* Tombol sama dengan dua kolom */
-}
-
-.equal-sign:hover {
-    background-color: #256a9a;
-}
-
-.all-clear {
-    background-color: #c0392b;
-    color: #fff;
-}
-
-.all-clear:hover {
-    background-color: #a72d21;
-}
-
-.decimal {
-    background-color: #e0e0e0;
-}
-
-.decimal:hover {
-    background-color: #d0d0d0;
-}
-
-/* Responsif dasar untuk layar yang lebih kecil */
-@media (max-width: 480px) {
-    .calculator {
-        width: 90%;
-        padding: 10px;
-    }
-
-    .calculator-screen {
-        height: 60px;
-        font-size: 4rem;
-    }
-
-    .calculator-keys button {
-        height: 50px;
-        font-size: 2rem;
-    }
+/* Base font size untuk rem */
+html {
+    font-size: 10px; /* 1rem = 10px */
 }
