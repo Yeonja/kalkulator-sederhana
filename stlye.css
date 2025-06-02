@@ -1,3 +1,14 @@
+html {
+    font-size: 62.5%; /* 1rem = 10px */
+    box-sizing: border-box;
+}
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
 body {
     font-family: Arial, sans-serif;
     display: flex;
@@ -6,55 +17,108 @@ body {
     justify-content: center;
     min-height: 100vh;
     background-color: #f4f4f4;
-    margin: 0;
 }
 
-.form-container {
+h2 {
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    color: #333;
+}
+
+.calculator {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 400px; /* Ukuran kalkulator */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     background-color: #fff;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 300px;
 }
 
-.form-container label {
-    font-weight: bold;
-}
-
-.form-container input[type="number"],
-.form-container select,
-.form-container button {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-}
-
-.form-container button {
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
+.calculator-screen {
+    width: 100%;
+    font-size: 5rem;
+    height: 80px;
     border: none;
+    background-color: #252525;
+    color: #fff;
+    text-align: right;
+    padding-right: 20px;
+    padding-left: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
 }
 
-.form-container button:hover {
-    background-color: #0056b3;
+.calculator-keys {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 kolom */
+    grid-gap: 10px; /* Jarak antar tombol */
 }
 
-.result {
-    margin-top: 20px;
-    padding: 15px;
-    background-color: #e9ecef;
-    border-radius: 8px;
-    width: 300px;
-    text-align: center;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+.calculator-keys button {
+    height: 60px;
+    font-size: 2.5rem;
+    background-color: #e0e0e0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    outline: none;
 }
 
-.result p {
-    margin: 0;
-    font-size: 18px;
+.calculator-keys button:hover {
+    background-color: #d0d0d0;
+}
+
+.operator {
+    background-color: #f5923e;
+    color: #fff;
+}
+
+.operator:hover {
+    background-color: #d47e33;
+}
+
+.equal-sign {
+    background-color: #2e86c1;
+    color: #fff;
+    grid-column: span 2; /* Tombol sama dengan dua kolom */
+}
+
+.equal-sign:hover {
+    background-color: #256a9a;
+}
+
+.all-clear {
+    background-color: #c0392b;
+    color: #fff;
+}
+
+.all-clear:hover {
+    background-color: #a72d21;
+}
+
+.decimal {
+    background-color: #e0e0e0;
+}
+
+.decimal:hover {
+    background-color: #d0d0d0;
+}
+
+/* Responsif dasar untuk layar yang lebih kecil */
+@media (max-width: 480px) {
+    .calculator {
+        width: 90%;
+        padding: 10px;
+    }
+
+    .calculator-screen {
+        height: 60px;
+        font-size: 4rem;
+    }
+
+    .calculator-keys button {
+        height: 50px;
+        font-size: 2rem;
+    }
 }
