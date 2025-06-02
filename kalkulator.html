@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Kalkulator Sederhana</title>
+    <link rel="stylesheet" href="stlye.css">
+</head>
+<body>
+    <h2>Selamat Mencoba</h2>
+
+    <form id="calcForm" class="form-container">
+        <label for="nilai1">Nilai I</label>
+        <input type="number" id="nilai1" name="nilai1" required>
+
+        <select name="operator" id="operator">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">*</option>
+            <option value="/">/</option>
+            <option value="^">^</option>
+        </select>
+
+        <label for="nilai2" id="label-nilai2">Nilai II</label>
+        <input type="number" id="nilai2" name="nilai2" required>
+
+        <button type="submit">submit</button>
+    </form>
+
+    <div id="hasil" class="result"></div>
+
+    <script>
+        const form = document.getElementById('calcForm');
+        const hasilDiv = document.getElementById('hasil');
+        const operatorSelect = document.getElementById('operator');
+        const nilai2Field = document.getElementById('nilai2');
+        const labelNilai2 = document.getElementById('label-nilai2');
+
+        // Menyembunyikan input nilai2 jika operator adalah "^"
+        operatorSelect.addEventListener('change', function () {
+            if (operatorSelect.value === '^') {
+                nilai2Field.style.display = 'none';
+                labelNilai2.style.display = 'none';
+            } else {
+                nilai2Field.style.display = 'inline-block';
+                labelNilai2.style.display = 'inline-block';
+            }
+        });
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const nilai1 = parseFloat(document.getElementById('nilai1').value);
+            const nilai2 = parseFloat(document.getElementById('nilai2').value);
+            const operator = operatorSelect.value;
+            let hasil;
+
+            switch(operator) {
+                case '+':
+                    hasil = nilai1 + nilai2;
+                    break;
+                case '-':
+                    hasil = nilai1 - nilai2;
+                    break;
+                case '*':
+                    hasil = nilai1 * nilai2;
+                    break;
+                case '/':
+                    hasil = nilai2 === 0 ? "Tidak bisa dibagi 0!" : nilai1 / nilai2;
+                    break;
+                case '^':
+                    hasil = nilai1 < 0 ? "Tidak bisa akar dari bilangan negatif!" : Math.sqrt(nilai1);
+                    break;
+            }
+
+            hasilDiv.innerHTML = `<p>Hasil: <strong>${hasil}</strong></p>`;
+        });
+    </script>
+</body>
+</html>
